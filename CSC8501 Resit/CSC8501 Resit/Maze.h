@@ -2,6 +2,8 @@
 #define MAZE_H
 
 #include <vector>
+#include "Player.h"
+#include "Prize.h"
 
 using namespace std;
 
@@ -11,11 +13,16 @@ public:
 	Maze();
 	~Maze();
 
-	void printMaze();
+	void printMaze(Player* p);
+	void update(Player* p);
+
+	char getChar(int y, int x);
 
 private:
 
 	vector<vector<char>> maze;
+
+	vector<Prize*> prizes;
 
 };
 

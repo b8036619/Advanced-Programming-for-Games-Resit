@@ -142,12 +142,12 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Prizes.cpp" />
+    <ClCompile Include="Prize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Prizes.h" />
+    <ClInclude Include="Prize.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
