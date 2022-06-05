@@ -15,17 +15,19 @@ public:
 
 	char FindNext(int pathNo);
 
+	void CreateBranch(int pathNo, char direction);
+
 
 private:
 
 	vector<vector<char>> paths;
 
-	vector<vector<char>> pathsToCheck;
-
-	vector<vector<int>> branchPoints;
+	vector<vector<char>> branchPaths;
 
 	vector<int> posCopy;
 	vector<vector<char>> mazeCopy;
+
+	bool endPath;
 
 };
 
