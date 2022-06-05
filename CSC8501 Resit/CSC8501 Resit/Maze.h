@@ -13,10 +13,12 @@ public:
 	Maze();
 	~Maze();
 
-	void printMaze(Player* p);
-	void update(Player* p);
+	void PrintMaze(Player* p);
+	void Update(Player* p);
 
-	char getChar(int y, int x);
+	char GetChar(int y, int x);
+
+	vector<vector<char>> GetMaze() { return maze; }
 
 private:
 

@@ -80,7 +80,7 @@ Maze::~Maze() {
 	delete &maze;
 }
 
-void Maze::printMaze(Player* p) {
+void Maze::PrintMaze(Player* p) {
 
 	cout << "--------------------------------------------" << "\n";
 
@@ -107,7 +107,7 @@ void Maze::printMaze(Player* p) {
 
 }
 
-void Maze::update(Player* p) {
+void Maze::Update(Player* p) {
 
 	for (int i = 0; i < prizes.size(); i++) {
 
@@ -128,7 +128,7 @@ void Maze::update(Player* p) {
 
 }
 
-char Maze::getChar(int y, int x) {
+char Maze::GetChar(int y, int x) {
 
 	if (x > 39) { return 'f'; }
 	else { return maze[y][x]; }
