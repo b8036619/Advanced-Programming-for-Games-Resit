@@ -13,10 +13,11 @@ public:
 
 	vector<char> FindPath(vector<int> pos, vector<vector<char>> maze);
 
+	void FindEnd() { findEndPath = true; }
 
 private:
 
-	char FindNext(int pathNo);
+	char FindNext(int pathNo, bool findEnd);
 
 	void CreateBranch(int pathNo, char direction);
 
@@ -26,6 +27,8 @@ private:
 
 	vector<int> posCopy;
 	vector<vector<char>> mazeCopy;
+
+	bool findEndPath;
 
 	bool endPath;
 

@@ -20,11 +20,15 @@ public:
 
 	vector<vector<char>> GetMaze() { return maze; }
 
+	bool GetIsAllCollected() { return allCollected; }
+
 private:
 
 	vector<vector<char>> maze;
 
 	vector<Prize*> prizes;
+
+	bool allCollected;
 
 };
 

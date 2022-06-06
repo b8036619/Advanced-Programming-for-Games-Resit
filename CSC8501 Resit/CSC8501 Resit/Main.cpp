@@ -13,27 +13,20 @@ int main() {
 	PathFinding* pathFinding = new PathFinding();
 	
 
-	bool finished = false;
-
 	vector<char> moves = {};
-	//char keyPressed;
 	char currentMove = ' ';
-	int counter = 0; //TEST
-	while (true) { // find paths
+	bool finished = false;
+	while (true) {
 
-		moves = pathFinding->FindPath(player->GetPosition(), maze->GetMaze());
-
-		for (int i = 0; moves.size() > i; i++) {
-			cout << '\n' << moves[i];
+		if (maze->GetIsAllCollected()) {
+			pathFinding->FindEnd();
 		}
 
-		cout << '\n' << moves.size() << '\n';
+		moves = pathFinding->FindPath(player->GetPosition(), maze->GetMaze());
 
 		for (int i = 0; i < moves.size(); i++) {
 
 			currentMove = moves[i];
-
-			//cout << '\n' << currentMove << '\n';
 
 			switch (currentMove)
 			{
@@ -59,47 +52,19 @@ int main() {
 			maze->Update(player);
 			maze->PrintMaze(player);
 
-		}
-
-		/*
-		if (counter == 20) { break; } // TEST
-		counter++;
-		*/
-		/*
-		while (true) { // follow path
-			maze->PrintMaze(player);
-
-			keyPressed = _getch();
-
-			switch (keyPressed)
-			{
-			case 'a':
-				player->MoveLeft(maze->GetChar(player->GetPosition()[0], (player->GetPosition()[1] - 1)));
-				break;
-			case 'd':
-				player->MoveRight(maze->GetChar(player->GetPosition()[0], (player->GetPosition()[1] + 1)));
-				if ((maze->GetChar(player->GetPosition()[0], (player->GetPosition()[1] + 1))) == 'f') {
-					finished = true;
-				}
-				break;
-			case 'w':
-				player->MoveUp(maze->GetChar((player->GetPosition()[0] - 1), player->GetPosition()[1]));
-				break;
-			case 's':
-				player->MoveDown(maze->GetChar((player->GetPosition()[0] + 1), player->GetPosition()[1]));
-				break;
-			default:
-				break;
+			if (player->GetPosition() == vector<int>{16,39}) {
+				finished = true;
 			}
-			keyPressed = ' ';
-
-			maze->Update(player);
-
-			if (finished) { break; }
 
 		}
-		*/
-		
+
+		if (finished) { break; }
+
 	}
+
+	cout << '\n' << "       ---------------------";
+	cout << '\n' << "       | Final Health: " << player->GetHealth() << " |";
+	cout << '\n' << "       ---------------------";
+
 
 }

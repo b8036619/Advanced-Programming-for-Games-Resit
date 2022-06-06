@@ -1,9 +1,9 @@
 #include "PathFinding.h"
 #include <stdlib.h>
-#include <iostream>
+#include <time.h>
 
 PathFinding::PathFinding() {
-
+	findEndPath = false;
 }
 
 PathFinding::~PathFinding() {
@@ -25,7 +25,6 @@ vector<char> PathFinding::FindPath(vector<int> pos, vector<vector<char>> maze) {
 	endPath = false;
 
 	int numOfPaths = 0;
-	//bool pathsFound = false;
 	while (true) { //Create paths
 
 		if (branchPaths.size() > 0){
@@ -43,9 +42,10 @@ vector<char> PathFinding::FindPath(vector<int> pos, vector<vector<char>> maze) {
 		}
 					
 		char tempChar = ' ';
+		srand(time(NULL));
 		while (true) //Create a path
 		{
-			tempChar = FindNext(numOfPaths);
+			tempChar = FindNext(numOfPaths, findEndPath);
 			paths[numOfPaths].emplace_back(tempChar);
 
 			if (endPath == true) {
@@ -76,16 +76,11 @@ vector<char> PathFinding::FindPath(vector<int> pos, vector<vector<char>> maze) {
 				break;
 			}
 		}
-		/*
-		for (int i = 0; paths[numOfPaths].size() > i; i++) {//TEST
-			cout << '\n' << paths[numOfPaths][i];
-		}
-		cout << "\n" << "----";
-		*/
+		
 
 		numOfPaths++;
 
-		if (paths.size() > 6) { // Done enough paths
+		if (paths.size() > 10) { // Done enough paths
 			break;
 		}
 
@@ -105,16 +100,11 @@ vector<char> PathFinding::FindPath(vector<int> pos, vector<vector<char>> maze) {
 	branchPaths = {};
 	posCopy = {};
 
-	cout << '\n' << '\n';
-	for (int i = 0; tempVec.size() > i; i++) {//TEST
-		cout << '\n' << tempVec[i];
-	}
-
 	return tempVec;
 	
 }
 
-char PathFinding::FindNext(int pathNo) {
+char PathFinding::FindNext(int pathNo, bool findEnd) {
 
 	char previous = 'E';
 
@@ -133,50 +123,74 @@ char PathFinding::FindNext(int pathNo) {
 
 	vector<char> options = {};
 
-	if (posCopy[0] == 16 && posCopy[1] == 39) { options.emplace_back('L'); } // If at start
-	else {
+	if (!findEnd) {
+		if (posCopy[0] == 16 && posCopy[1] == 39) { options.emplace_back('L'); } // If at start
+		else {
 
-		if ((mazeCopy[posCopy[0]][posCopy[1] - 1] == ' ' || mazeCopy[posCopy[0]][posCopy[1] - 1] == '\x9C') && previous != 'R') { //Left
+			if ((mazeCopy[posCopy[0]][posCopy[1] - 1] == ' ' || mazeCopy[posCopy[0]][posCopy[1] - 1] == '\x9C') && previous != 'R') { //Left
+
+				options.emplace_back('L');
+				if (mazeCopy[posCopy[0]][posCopy[1] - 1] == '\x9C') { options.emplace_back('F'); }
+
+			}
+			if ((mazeCopy[posCopy[0]][posCopy[1] + 1] == ' ' || mazeCopy[posCopy[0]][posCopy[1] + 1] == '\x9C') && previous != 'L') { //Right
+
+				options.emplace_back('R');
+				if (mazeCopy[posCopy[0]][posCopy[1] + 1] == '\x9C') { options.emplace_back('F'); }
+
+			}
+			if ((mazeCopy[posCopy[0] - 1][posCopy[1]] == ' ' || mazeCopy[posCopy[0] - 1][posCopy[1]] == '\x9C') && previous != 'D') { //Up
+
+				options.emplace_back('U');
+				if (mazeCopy[posCopy[0] - 1][posCopy[1]] == '\x9C') { options.emplace_back('F'); }
+
+			}
+			if ((mazeCopy[posCopy[0] + 1][posCopy[1]] == ' ' || mazeCopy[posCopy[0] + 1][posCopy[1]] == '\x9C') && previous != 'U') { //Down
+
+				options.emplace_back('D');
+				if (mazeCopy[posCopy[0] + 1][posCopy[1]] == '\x9C') { options.emplace_back('F'); }
+
+			}
+		}
+	}
+	else { // Finding exit
+		if ((mazeCopy[posCopy[0]][posCopy[1] - 1] == ' ') && previous != 'R') { //Left
 
 			options.emplace_back('L');
-			if (mazeCopy[posCopy[0]][posCopy[1] - 1] == '\x9C') { options.emplace_back('F'); }
 
 		}
-		if ((mazeCopy[posCopy[0]][posCopy[1] + 1] == ' ' || mazeCopy[posCopy[0]][posCopy[1] + 1] == '\x9C') && previous != 'L') { //Right
+		if ((mazeCopy[posCopy[0]][posCopy[1] + 1] == ' ') && previous != 'L') { //Right
 
 			options.emplace_back('R');
-			if (mazeCopy[posCopy[0]][posCopy[1] + 1] == '\x9C') { options.emplace_back('F'); }
+			if (posCopy[0] == 16 && (posCopy[1] + 1) == 39) { options.emplace_back('F'); }
 
 		}
-		if ((mazeCopy[posCopy[0] - 1][posCopy[1]] == ' ' || mazeCopy[posCopy[0] - 1][posCopy[1]] == '\x9C') && previous != 'D') { //Up
+		if ((mazeCopy[posCopy[0] - 1][posCopy[1]] == ' ') && previous != 'D') { //Up
 
 			options.emplace_back('U');
-			if (mazeCopy[posCopy[0] - 1][posCopy[1]] == '\x9C') { options.emplace_back('F'); }
 
 		}
-		if ((mazeCopy[posCopy[0] + 1][posCopy[1]] == ' ' || mazeCopy[posCopy[0] + 1][posCopy[1]] == '\x9C') && previous != 'U') { //Down
+		if ((mazeCopy[posCopy[0] + 1][posCopy[1]] == ' ') && previous != 'U') { //Down
 
 			options.emplace_back('D');
-			if (mazeCopy[posCopy[0] + 1][posCopy[1]] == '\x9C') { options.emplace_back('F'); }
 
 		}
 	}
 
-
 	if (options.size() == 0) { return '#'; } // Hit dead end
 
-	else if (options.size() > 1){ // multiple options
+	else if (options.size() > 1){ // Multiple options
 
-		int randomDirection = rand() % options.size(); // pick path
+		int randomDirection = rand() % options.size(); // Pick path
 
-		for (int i = 0; i < options.size(); i++) { // check if £ found
+		for (int i = 0; i < options.size(); i++) { // Check if £ or exit found
 			if (options[i] == 'F') {
 				endPath = true;
 				return options[i - 1];
 			}
 
 			if (i != randomDirection) {
-				CreateBranch(pathNo, options[i]); // create new paths for the others
+				CreateBranch(pathNo, options[i]); // Create new paths for the other directions
 			}
 
 		}
@@ -188,7 +202,7 @@ char PathFinding::FindNext(int pathNo) {
 
 }
 
-void PathFinding::CreateBranch(int pathNo, char direction) {// creates a new path to be used later
+void PathFinding::CreateBranch(int pathNo, char direction) {// Creates a new path to be used later
 
 	vector<char> tempVec = paths[pathNo];
 	tempVec.emplace_back(direction);
