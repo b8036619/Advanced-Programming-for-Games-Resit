@@ -63,7 +63,7 @@ void Maze::PrintMaze(Player* p) {
 
 	}
 
-	cout << "\n        Health: " << p->GetHealth() << "\n\n" ;
+	cout << "\n        Health: " << p->GetHealth() << "\n" ;
 
 }
 

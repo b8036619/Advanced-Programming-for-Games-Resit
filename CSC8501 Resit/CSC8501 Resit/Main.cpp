@@ -66,5 +66,7 @@ int main() {
 	cout << '\n' << "       | Final Health: " << player->GetHealth() << " |";
 	cout << '\n' << "       ---------------------";
 
+	cout << '\n' << '\n' << "       Press any key to exit";
+	_getch();
 
 }
